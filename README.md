@@ -43,9 +43,3 @@ GET /attendance/{employeeId}
 ### Payslip Service
 GET /payslip/{employeeId}
 
----
----
-
-## Author
-
-Harshit
