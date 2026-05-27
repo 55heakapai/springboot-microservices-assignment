@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Payroll System</title>
+
+    <style>
+
+        body{
+            margin:0;
+            padding:0;
+            font-family:Arial;
+            background:linear-gradient(to right,#1e3c72,#2a5298);
+        }
+
+        .container{
+            width:800px;
+            margin:50px auto;
+            background:white;
+            padding:40px;
+            border-radius:15px;
+            box-shadow:0 5px 20px rgba(0,0,0,0.3);
+        }
+
+        h1{
+            text-align:center;
+            color:#222;
+        }
+
+        .sub{
+            text-align:center;
+            color:gray;
+            margin-bottom:30px;
+        }
+
+        .services{
+            display:flex;
+            gap:15px;
+            margin-bottom:30px;
+        }
+
+        .card{
+            flex:1;
+            background:#f4f4f4;
+            padding:20px;
+            border-radius:10px;
+            text-align:center;
+        }
+
+        .input-section{
+            text-align:center;
+            margin-bottom:30px;
+        }
+
+        input{
+            padding:12px;
+            width:250px;
+            border-radius:8px;
+            border:1px solid #ccc;
+            font-size:16px;
+        }
+
+        button{
+            padding:12px 20px;
+            background:#007bff;
+            color:white;
+            border:none;
+            border-radius:8px;
+            cursor:pointer;
+            margin-left:10px;
+            font-size:16px;
+        }
+
+        .result{
+            background:#f9f9f9;
+            padding:25px;
+            border-radius:10px;
+            display:none;
+        }
+
+        .result p{
+            font-size:18px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Employee Payroll System</h1>
+
+    <p class="sub">
+        Microservices Based Application
+    </p>
+
+    <div class="services">
+
+        <div class="card">
+            <h3>Employee Service</h3>
+            <p>Port : 8081</p>
+        </div>
+
+        <div class="card">
+            <h3>Attendance Service</h3>
+            <p>Port : 8082</p>
+        </div>
+
+        <div class="card">
+            <h3>Payslip Service</h3>
+            <p>Port : 8083</p>
+        </div>
+
+    </div>
+
+    <div class="input-section">
+
+        <input
+                type="number"
+                id="employeeId"
+                placeholder="Enter Employee ID"
+        >
+
+        <button onclick="generatePayslip()">
+            Generate Payslip
+        </button>
+
+    </div>
+
+    <div class="result" id="result">
+
+        <h2>Payslip Details</h2>
+
+        <p>
+            <b>Employee ID :</b>
+            <span id="eid"></span>
+        </p>
+
+        <p>
+            <b>Employee Name :</b>
+            <span id="ename"></span>
+        </p>
+
+        <p>
+            <b>Days Present :</b>
+            <span id="days"></span>
+        </p>
+
+        <p>
+            <b>Total Salary :</b>
+            ₹ <span id="salary"></span>
+        </p>
+
+    </div>
+
+</div>
+
+<script>
+
+    async function generatePayslip(){
+
+        const id =
+            document.getElementById("employeeId").value;
+
+        const response =
+            await fetch(
+                "http://localhost:8083/payslip/" + id
+            );
+
+        const data =
+            await response.json();
+
+        document.getElementById("result").style.display =
+            "block";
+
+        document.getElementById("eid").innerText =
+            data.employeeId;
+
+        document.getElementById("ename").innerText =
+            data.employeeName;
+
+        document.getElementById("days").innerText =
+            data.daysPresent;
+
+        document.getElementById("salary").innerText =
+            data.totalSalary;
+    }
+
+</script>
+
+</body>
+</html>
